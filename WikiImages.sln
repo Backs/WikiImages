@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiImages.Api", "WikiImage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiImages.Tests", "WikiImages.Tests\WikiImages.Tests.csproj", "{C42DD0D4-F1E0-44CC-8A00-257062DB608D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiImages.Algorithm", "WikiImages.Algorithm\WikiImages.Algorithm.csproj", "{2726E0A3-804B-4922-896A-91C740513097}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C42DD0D4-F1E0-44CC-8A00-257062DB608D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C42DD0D4-F1E0-44CC-8A00-257062DB608D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C42DD0D4-F1E0-44CC-8A00-257062DB608D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2726E0A3-804B-4922-896A-91C740513097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2726E0A3-804B-4922-896A-91C740513097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2726E0A3-804B-4922-896A-91C740513097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2726E0A3-804B-4922-896A-91C740513097}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

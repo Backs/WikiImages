@@ -44,6 +44,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\LevenshteinTests\LevenshteinDistanceTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,6 +52,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WikiImages.Algorithm\WikiImages.Algorithm.csproj">
+      <Project>{2726E0A3-804B-4922-896A-91C740513097}</Project>
+      <Name>WikiImages.Algorithm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WikiImages.Api\WikiImages.Api.csproj">
       <Project>{50CC110D-C55C-425C-A28D-6679076739CF}</Project>
       <Name>WikiImages.Api</Name>
