@@ -36,7 +36,7 @@ namespace WikiImages.Api.Services
             return Array.AsReadOnly(result.Query.Geosearch);
         }
 
-        public async Task<IReadOnlyCollection<string>> GetImageTitles(IEnumerable<long> pageIds)
+        public async Task<IReadOnlyList<string>> GetImageTitles(IEnumerable<long> pageIds)
         {
             var query = HttpUtility.ParseQueryString("action=query&prop=images&imlimit=500&format=json");
             query["pageids"] = string.Join("|", pageIds);
