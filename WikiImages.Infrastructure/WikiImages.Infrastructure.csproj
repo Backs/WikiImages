@@ -51,6 +51,7 @@
     <Compile Include="Services\Interfaces\IUserLocationService.cs" />
     <Compile Include="Services\Interfaces\Location.cs" />
     <Compile Include="Services\StubLocationService.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

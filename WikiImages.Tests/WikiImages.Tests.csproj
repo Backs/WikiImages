@@ -61,6 +61,10 @@
       <Project>{50CC110D-C55C-425C-A28D-6679076739CF}</Project>
       <Name>WikiImages.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WikiImages.Infrastructure\WikiImages.Infrastructure.csproj">
+      <Project>{A2DD2D72-FAF0-4467-ABD0-BA21B554B309}</Project>
+      <Name>WikiImages.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

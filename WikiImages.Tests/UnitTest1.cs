@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using WikiImages.Algorithm;
 using WikiImages.Api.Services;
+using WikiImages.Infrastructure;
 
 namespace WikiImages.Tests
 {
@@ -24,13 +25,18 @@ namespace WikiImages.Tests
             var pages = await service.GetPages(55.023525, 82.941754);
             var data = await service.GetImageTitles(pages.Select(o => o.PageId));
 
-            for (var i = 0; i < data.Count; i++)
-            {
-                for (int j = i + 1; j < data.Count; j++)
-                {
-                    var dif = SentenceSimilarity.Distance(data[i], data[j]);
-                }
-            }
+            var clearedData = data.Select(StringExtensions.ClearTitle).ToArray();
+
+            Graph g = new Graph(clearedData, SentenceSimilarity.Distance);
+            g.MinimalGraph();
+        }
+
+        [Test]
+        public void TestMethod3()
+        {
+            Graph g = new Graph(new[] { "asd", "as", "dfg", "qwe" }, SentenceSimilarity.Distance);
+            g.MinimalGraph();
+
         }
     }
 }

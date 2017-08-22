@@ -19,8 +19,8 @@ namespace WikiImages.Algorithm
 
             var totalWordsCount = unitedSet.Count;
 
-            var wordsCount1 = words1.Count(word => unitedSet.Contains(word));
-            var wordsCount2 = words2.Count(word => unitedSet.Contains(word));
+            var wordsCount1 = words1.Distinct().Count(word => unitedSet.Contains(word));
+            var wordsCount2 = words2.Distinct().Count(word => unitedSet.Contains(word));
 
             var w1 = (double)wordsCount1 / totalWordsCount;
             var w2 = (double)wordsCount2 / totalWordsCount;
