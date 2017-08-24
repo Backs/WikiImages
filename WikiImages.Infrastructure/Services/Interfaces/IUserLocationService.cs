@@ -2,6 +2,6 @@
 {
     public interface IUserLocationService
     {
-        Location GetCurrentlocation();
+        Location GetCurrentLocation();
     }
 }

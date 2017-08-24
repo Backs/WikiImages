@@ -44,9 +44,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\GraphTests\GetComponentsTests.cs" />
     <Compile Include="Algorithm\LevenshteinTests\LevenshteinDistanceTests.cs" />
     <Compile Include="Algorithm\SentenceSimilarityTests\DistanceTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

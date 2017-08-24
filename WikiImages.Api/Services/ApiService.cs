@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using WikiImages.Api.Services.Interfaces;
@@ -22,32 +21,48 @@ namespace WikiImages.Api.Services
             _client = new WebClient();
         }
 
-        public async Task<IReadOnlyCollection<Page>> GetPages(double latitude, double longitude)
+        public IReadOnlyCollection<Page> GetPages(double latitude, double longitude)
         {
             var query = HttpUtility.ParseQueryString("action=query&list=geosearch&gsradius=10000&gslimit=50&format=json");
             query["gscoord"] = $"{latitude.ToString("0.000000", CultureInfo.InvariantCulture)}|{longitude.ToString("0.000000", CultureInfo.InvariantCulture)}";
 
             var requestUri = new UriBuilder(ApiUri) { Query = query.ToString() };
 
-            var json = await _client.DownloadStringTaskAsync(requestUri.Uri);
+            var json = _client.DownloadString(requestUri.Uri);
+
+            var error = JsonConvert.DeserializeObject<ErrorRoot>(json);
+            if (error?.Error != null)
+            {
+                throw new ApiRequestException(error.Error.Info);
+            }
 
             var result = JsonConvert.DeserializeObject<PagesQueryRoot>(json);
 
             return Array.AsReadOnly(result.Query.Geosearch);
         }
 
-        public async Task<IReadOnlyList<string>> GetImageTitles(IEnumerable<long> pageIds)
+        public IReadOnlyList<string> GetImageTitles(IEnumerable<long> pageIds)
         {
+            if (pageIds == null)
+                throw new ArgumentNullException(nameof(pageIds));
+
             var query = HttpUtility.ParseQueryString("action=query&prop=images&imlimit=500&format=json");
             query["pageids"] = string.Join("|", pageIds);
 
             var requestUri = new UriBuilder(ApiUri) { Query = query.ToString() };
 
-            var json = await _client.DownloadStringTaskAsync(requestUri.Uri);
+            var json = _client.DownloadString(requestUri.Uri);
+
+            var error = JsonConvert.DeserializeObject<ErrorRoot>(json);
+            if (error?.Error != null)
+            {
+                throw new ApiRequestException(error.Error.Info);
+            }
 
             var result = JsonConvert.DeserializeObject<ImagesRootObject>(json);
 
-            return Array.AsReadOnly(result.Query.Pages.Values.SelectMany(o => o.Images).Select(o => o.Title).ToArray());
+            var pages = result.Query.Pages.Values.Where(o => o.Images != null);
+            return Array.AsReadOnly(pages.SelectMany(o => o.Images).Select(o => o.Title).ToArray());
         }
 
         public void Dispose()
@@ -83,6 +98,16 @@ namespace WikiImages.Api.Services
         private class ImagesPage
         {
             public List<Image> Images { get; set; }
+        }
+
+        private class Error
+        {
+            public string Info { get; set; }
+        }
+
+        private class ErrorRoot
+        {
+            public Error Error { get; set; }
         }
     }
 }

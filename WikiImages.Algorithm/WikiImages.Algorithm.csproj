@@ -38,6 +38,7 @@
     <Compile Include="Levenshtein.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SentenceSimilarity.cs" />
+    <Compile Include="SimilarityGroups.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

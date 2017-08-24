@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{50CC110D-C55C-425C-A28D-6679076739CF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WikiImages.Api</RootNamespace>
-    <AssemblyName>WikiImages.Api</AssemblyName>
+    <ProjectGuid>{3726FD4C-BA0B-414B-9B72-4779EC32D786}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>WikiImages.Shell</RootNamespace>
+    <AssemblyName>WikiImages.Shell</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,14 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Globalization" />
     <Reference Include="System.Runtime" />
-    <Reference Include="System.Web" />
     <Reference Include="Unity, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.2\lib\net45\Unity.dll</HintPath>
     </Reference>
@@ -46,15 +44,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiContainerExtension.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ApiService.cs" />
-    <Compile Include="Services\Interfaces\ApiRequestException.cs" />
-    <Compile Include="Services\Interfaces\IApiService.cs" />
-    <Compile Include="Services\Interfaces\Page.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WikiImages.Algorithm\WikiImages.Algorithm.csproj">
+      <Project>{2726E0A3-804B-4922-896A-91C740513097}</Project>
+      <Name>WikiImages.Algorithm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WikiImages.Api\WikiImages.Api.csproj">
+      <Project>{50CC110D-C55C-425C-A28D-6679076739CF}</Project>
+      <Name>WikiImages.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WikiImages.Infrastructure\WikiImages.Infrastructure.csproj">
+      <Project>{A2DD2D72-FAF0-4467-ABD0-BA21B554B309}</Project>
+      <Name>WikiImages.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

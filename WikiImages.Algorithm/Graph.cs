@@ -6,11 +6,13 @@ namespace WikiImages.Algorithm
 {
     public sealed class Graph
     {
-        private readonly List<Edge> _nodes = new List<Edge>();
+        private readonly List<Edge> _edges = new List<Edge>();
         private readonly IDictionary<string, int> _keys;
+        private readonly IDictionary<int, string> _values;
         public Graph(IReadOnlyList<string> data, Func<string, string, double> distance)
         {
             _keys = data.Distinct().Select((o, i) => new { o, i }).ToDictionary(o => o.o, o => o.i);
+            _values = _keys.ToDictionary(o => o.Value, o => o.Key);
 
             for (var i = 0; i < data.Count; i++)
             {
@@ -19,18 +21,18 @@ namespace WikiImages.Algorithm
                 {
                     var value2 = data[j];
                     var key = distance(value1, value2);
-                    _nodes.Add(new Edge(value1, value2, _keys[value1], _keys[value2], key));
+                    _edges.Add(new Edge(_keys[value1], _keys[value2], key));
                 }
             }
         }
 
-        public void MinimalGraph()
+        public IReadOnlyList<IReadOnlyCollection<string>> GetComponents(double minimalDistance)
         {
             var dsu = new Dsu(_keys.Count);
 
             var list = new List<Edge>();
 
-            foreach (var edge in _nodes.OrderByDescending(o => o.Distance))
+            foreach (var edge in _edges.OrderByDescending(o => o.Distance))
             {
                 var a = edge.Index1;
                 var b = edge.Index2;
@@ -40,7 +42,70 @@ namespace WikiImages.Algorithm
                     list.Add(edge);
                 }
             }
-            list = list.Where(o => o.Distance > 0.5).ToList();
+            list = list.Where(o => o.Distance >= minimalDistance).ToList();
+
+            var result = new Dictionary<int, List<int>>();
+
+            foreach (var edge in list)
+            {
+                if (!result.ContainsKey(edge.Index1))
+                {
+                    result[edge.Index1] = new List<int>();
+                }
+                if (!result.ContainsKey(edge.Index2))
+                {
+                    result[edge.Index2] = new List<int>();
+                }
+
+                result[edge.Index1].Add(edge.Index2);
+                result[edge.Index2].Add(edge.Index1);
+            }
+
+            var groups = new Dfs(result).Find();
+
+            return groups.Select(o => o.Select(s => _values[s]).ToList().AsReadOnly())
+                .OrderByDescending(o => o.Count)
+                .ToList()
+                .AsReadOnly();
+        }
+
+        private class Dfs
+        {
+            private readonly Dictionary<int, List<int>> _nodes;
+            private readonly HashSet<int> _visited = new HashSet<int>();
+
+            public Dfs(Dictionary<int, List<int>> nodes)
+            {
+                _nodes = nodes;
+            }
+
+            public List<List<int>> Find()
+            {
+                var result = new List<List<int>>();
+                foreach (var v in _nodes.Keys)
+                {
+                    if (!_visited.Contains(v))
+                    {
+                        var group = new List<int>();
+                        Find(v, group);
+                        result.Add(group);
+                    }
+                }
+                return result;
+            }
+
+            private void Find(int node, ICollection<int> result)
+            {
+                if (_visited.Contains(node))
+                    return;
+                _visited.Add(node);
+
+                result.Add(node);
+                foreach (var v in _nodes[node])
+                {
+                    Find(v, result);
+                }
+            }
         }
 
         private class Dsu
@@ -78,13 +143,8 @@ namespace WikiImages.Algorithm
 
         private sealed class Edge
         {
-            private readonly string _value1;
-            private readonly string _value2;
-
-            public Edge(string value1, string value2, int index1, int index2, double distance)
+            public Edge(int index1, int index2, double distance)
             {
-                _value1 = value1;
-                _value2 = value2;
                 Index1 = index1;
                 Distance = distance;
                 Index2 = index2;
@@ -93,11 +153,6 @@ namespace WikiImages.Algorithm
             public int Index1 { get; }
             public int Index2 { get; }
             public double Distance { get; }
-
-            public override string ToString()
-            {
-                return $"{_value1}-{_value2}:{Distance}";
-            }
         }
     }
 }

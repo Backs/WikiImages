@@ -4,7 +4,7 @@ namespace WikiImages.Infrastructure.Services
 {
     internal sealed class StubLocationService : IUserLocationService
     {
-        public Location GetCurrentlocation()
+        public Location GetCurrentLocation()
         {
             return new Location(55.023525, 82.941754);
         }

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace WikiImages.Api.Services.Interfaces
 {
     public interface IApiService
     {
-        Task<IReadOnlyCollection<Page>> GetPages(double latitude, double longitude);
-        Task<IReadOnlyList<string>> GetImageTitles(IEnumerable<long> pageIds);
+        IReadOnlyCollection<Page> GetPages(double latitude, double longitude);
+        IReadOnlyList<string> GetImageTitles(IEnumerable<long> pageIds);
     }
 }
